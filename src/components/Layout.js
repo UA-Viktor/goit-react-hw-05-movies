@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { NavLink, Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 
@@ -22,12 +24,14 @@ export const Layout = () => {
             <StyledLink to="/">Home</StyledLink>
           </li>
           <li>
-            <StyledLink to="movies">Movies</StyledLink>
+            <StyledLink to="/movies">Movies</StyledLink>
           </li>
         </ul>
       </header>
       <main>
-        <Outlet />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </main>
       <footer></footer>
     </>
