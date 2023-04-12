@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-
 import moviesAPI from '../services/movies-api';
 
 const Movies = () => {
@@ -48,4 +47,4 @@ const Movies = () => {
   );
 };
 
-export default Movies;
+export default memo(Movies);

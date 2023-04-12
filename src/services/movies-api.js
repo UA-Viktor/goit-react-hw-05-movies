@@ -34,10 +34,32 @@ const searchMoviesID = id => {
     .then(response => response.data);
 };
 
+const searchMoviesIDcredits = id => {
+  return axios
+    .get('/movie/' + id + '/credits', {
+      params: {
+        api_key: API_KEY,
+      },
+    })
+    .then(response => response.data.cast);
+};
+
+const searchMoviesIDreviews = id => {
+  return axios
+    .get('/movie/' + id + '/reviews', {
+      params: {
+        api_key: API_KEY,
+      },
+    })
+    .then(response => response.data.results);
+};
+
 const moviesAPI = {
   searchMoviesTrending,
   searchMovies,
   searchMoviesID,
+  searchMoviesIDcredits,
+  searchMoviesIDreviews,
 };
 
 export default moviesAPI;

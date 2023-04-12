@@ -1,18 +1,29 @@
-import { Suspense, useRef, useState, useEffect } from 'react';
+import { Suspense, useRef, useState, useEffect, memo } from 'react';
 import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState([]);
+  const [error, setError] = useState(null);
   const location = useLocation();
   const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
-    moviesAPI.searchMoviesID(movieId).then(response => {
-      setMovie(response);
-    });
+    const fetchMovie = async () => {
+      try {
+        const response = await moviesAPI.searchMoviesID(movieId);
+        setMovie(response);
+      } catch (error) {
+        setError('Ошибка при получении информации о фильме');
+      }
+    };
+    fetchMovie();
   }, [movieId]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <>
@@ -25,10 +36,14 @@ const MovieDetails = () => {
       />
       <ul>
         <li>
-          <Link to="cast">Cast</Link>
+          <Link to="cast" state={{ from: location }}>
+            Cast
+          </Link>
         </li>
         <li>
-          <Link to="reviews">Reviews</Link>
+          <Link to="reviews" state={{ from: location }}>
+            Reviews
+          </Link>
         </li>
       </ul>
       <Suspense fallback={<div>LOADING SUBPAGE...</div>}>
@@ -38,4 +53,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default memo(MovieDetails);
