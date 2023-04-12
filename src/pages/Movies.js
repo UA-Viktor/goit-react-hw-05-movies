@@ -1,45 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-const Movies = () => {
-  const [movies, setMovies] = useState([
-    '504949',
-    '420818',
-    '272',
-    '123446',
-    '35443',
-  ]);
-  const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const movieId = searchParams.get('movieId') ?? '';
-  // useEffect(() => {
-  //   // HTTP запрос, если нужно
-  //   setMovies();
-  // }, []);
+import moviesAPI from '../services/movies-api';
 
-  const updateQueryString = evt => {
-    const movieIdValue = evt.target.value;
-    if (movieIdValue === '') {
-      return setSearchParams({});
-    }
-    setSearchParams({ movieId: movieIdValue });
+const Movies = () => {
+  const location = useLocation();
+  const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams({ query: '' });
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get('query') || ''
+  );
+
+  useEffect(() => {
+    moviesAPI.searchMovies(searchQuery).then(res => setMovies(res));
+    setSearchQuery('');
+  }, []);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    setSearchParams({ query: searchQuery });
+    moviesAPI.searchMovies(searchQuery).then(res => setMovies(res));
+    setSearchQuery('');
   };
 
-  const visibleMovies = movies.filter(movie => movie.includes(movieId));
+  const handleInputChange = e => {
+    const value = e.target.value;
+    setSearchQuery(value);
+  };
 
   return (
     <div>
-      <input type="text" value={movieId} onChange={updateQueryString} />
+      <form onSubmit={handleSubmit}>
+        <input type="text" value={searchQuery} onChange={handleInputChange} />
+        <button type="submit">Search</button>
+      </form>
+
       <ul>
-        {visibleMovies.map(movie => {
-          return (
-            <li key={movie}>
-              <Link to={`${movie}`} state={{ from: location }}>
-                {movie}
-              </Link>
-            </li>
-          );
-        })}
+        {movies.map(movie => (
+          <li key={movie.id}>
+            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+              {movie.title}
+            </Link>
+          </li>
+        ))}
       </ul>
     </div>
   );

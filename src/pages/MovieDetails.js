@@ -3,21 +3,16 @@ import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
 
 const MovieDetails = () => {
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState([]);
   const location = useLocation();
   const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
-  const { movieId } = useParams();
-
-  const [movie, setMovie] = useState([]);
-  // const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    moviesAPI.fetchMovies(movieId).then(response => {
+    moviesAPI.searchMoviesID(movieId).then(response => {
       setMovie(response);
     });
   }, [movieId]);
-
-  console.log(movie);
 
   return (
     <>
