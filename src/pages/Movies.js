@@ -1,18 +1,32 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
 
 const Movies = () => {
   const location = useLocation();
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams({ query: '' });
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get('query') || ''
   );
+  const searchQueryRef = useRef('');
 
   useEffect(() => {
-    moviesAPI.searchMovies(searchQuery).then(res => setMovies(res));
-    setSearchQuery('');
+    searchQueryRef.current = searchQuery;
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const response = await moviesAPI.searchMovies(searchQueryRef.current);
+        setMovies(response);
+        setSearchQuery('');
+      } catch (error) {
+        setError('Ошибка при получении информации о фильме');
+      }
+    };
+    fetchMovie();
   }, []);
 
   const handleSubmit = e => {
@@ -26,6 +40,10 @@ const Movies = () => {
     const value = e.target.value;
     setSearchQuery(value);
   };
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div>
