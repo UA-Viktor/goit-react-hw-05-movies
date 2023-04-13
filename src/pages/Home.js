@@ -1,6 +1,8 @@
 import { useState, useEffect, memo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
+
+import MoviesList from '../components/MoviesList/MoviesList';
 
 const Home = () => {
   const location = useLocation();
@@ -12,21 +14,13 @@ const Home = () => {
     });
   }, []);
 
+  console.log(trendingMovies);
+
   return (
     <>
       <div>ТОП 20 Фильмов</div>
 
-      <ul>
-        {trendingMovies.map(movie => {
-          return (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`} state={{ from: location }}>
-                {movie.title}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      <MoviesList movies={trendingMovies} location={location} />
     </>
   );
 };

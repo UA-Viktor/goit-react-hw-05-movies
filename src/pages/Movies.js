@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, memo } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
+import MoviesList from '../components/MoviesList/MoviesList';
 
 const Movies = () => {
   const location = useLocation();
@@ -45,6 +46,8 @@ const Movies = () => {
     return <div>{error}</div>;
   }
 
+  console.log(movies);
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -52,15 +55,7 @@ const Movies = () => {
         <button type="submit">Search</button>
       </form>
 
-      <ul>
-        {movies.map(movie => (
-          <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
-              {movie.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <MoviesList movies={movies} location={location} />
     </div>
   );
 };
