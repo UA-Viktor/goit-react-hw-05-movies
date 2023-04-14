@@ -8,6 +8,7 @@ const searchMoviesTrending = () => {
     .get('/trending/movie/week', {
       params: {
         api_key: API_KEY,
+        language: 'uk',
       },
     })
     .then(response => response.data.results);

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, memo } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
 import MoviesList from '../components/MoviesList/MoviesList';
+import { Form } from './Movies.styled';
 
 const Movies = () => {
   const location = useLocation();
@@ -50,10 +51,10 @@ const Movies = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <input type="text" value={searchQuery} onChange={handleInputChange} />
         <button type="submit">Search</button>
-      </form>
+      </Form>
 
       <MoviesList movies={movies} location={location} />
     </div>

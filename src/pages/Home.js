@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
 
 import MoviesList from '../components/MoviesList/MoviesList';
+import { Headline } from './Home.styled';
 
 const Home = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const Home = () => {
 
   return (
     <>
-      <div>ТОП 20 Фильмов</div>
+      <Headline>Новинки та ТОП 20 Фільмів</Headline>
 
       <MoviesList movies={trendingMovies} location={location} />
     </>

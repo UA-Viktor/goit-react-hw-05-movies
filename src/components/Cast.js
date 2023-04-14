@@ -1,5 +1,5 @@
 import { useState, useEffect, memo } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
 
 const Cast = () => {
@@ -24,6 +24,8 @@ const Cast = () => {
     return <div>{error}</div>;
   }
 
+  console.log(movieCast);
+
   return (
     <>
       <div>Cast: {movieId}</div>
@@ -45,3 +47,11 @@ const Cast = () => {
 };
 
 export default memo(Cast);
+
+<div>
+  <ul>
+    <li>
+      <Link></Link>
+    </li>
+  </ul>
+</div>;
