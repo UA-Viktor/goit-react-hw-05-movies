@@ -55,12 +55,31 @@ const searchMoviesIDreviews = id => {
     .then(response => response.data.results);
 };
 
+const searchMovieTrailer = movieId => {
+  return axios
+    .get(`/movie/${movieId}/videos`, {
+      params: {
+        api_key: API_KEY,
+        language: 'en-US',
+      },
+    })
+    .then(response => {
+      const videoResults = response.data.results;
+      const trailer = videoResults.find(video => video.type === 'Trailer');
+      if (trailer) {
+        return `https://www.youtube.com/watch?v=${trailer.key}`;
+      }
+      return null;
+    });
+};
+
 const moviesAPI = {
   searchMoviesTrending,
   searchMovies,
   searchMoviesID,
   searchMoviesIDcredits,
   searchMoviesIDreviews,
+  searchMovieTrailer,
 };
 
 export default moviesAPI;

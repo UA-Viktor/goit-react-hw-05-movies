@@ -1,29 +1,42 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { List, Item, Article } from './MoviesList.styled';
+// import { Link } from 'react-router-dom';
+import {
+  List,
+  Item,
+  Article,
+  Title,
+  ReleaseDate,
+  VoteAverage,
+  Imeg,
+  LinkStyled,
+  InfoMain,
+  Info,
+} from './MoviesList.styled';
 import img from '../../img/no_name.png';
 
 const MoviesList = ({ movies, location }) => (
   <List>
     {movies.map(({ id, poster_path, release_date, title, vote_average }) => (
       <Item key={id}>
-        <Link to={`/movies/${id}`} state={{ from: location }}>
+        <LinkStyled to={`/movies/${id}`} state={{ from: location }}>
           <Article>
             {poster_path ? (
-              <img
+              <Imeg
                 src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
                 alt={title}
-                // width="250px"
-                // height="350px"
               />
             ) : (
-              <img src={`${img}`} alt={title} width="250px" height="350px" />
+              <Imeg src={`${img}`} alt={title} width="250px" height="350px" />
             )}
-            <h2>{title}</h2>
-            <p>{release_date}</p>
-            <p>{vote_average}</p>
+            <InfoMain>
+              <Title>{title}</Title>
+              <Info>
+                <ReleaseDate>{release_date?.slice(0, 4)}</ReleaseDate>
+                <VoteAverage>{vote_average}</VoteAverage>
+              </Info>
+            </InfoMain>
           </Article>
-        </Link>
+        </LinkStyled>
       </Item>
     ))}
   </List>

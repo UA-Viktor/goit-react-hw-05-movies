@@ -1,6 +1,7 @@
 import { useState, useEffect, memo } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
+import { CastUl, CastLi, CastImg, CastP } from './Cast.styled';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -28,30 +29,19 @@ const Cast = () => {
 
   return (
     <>
-      <div>Cast: {movieId}</div>
-
-      <ul style={{ display: 'flex' }}>
+      <CastUl>
         {movieCast.slice(0, 10).map(movie => (
-          <li key={movie.id}>
-            <img
+          <CastLi key={movie.id}>
+            <CastImg
               src={`https://image.tmdb.org/t/p/w300/${movie.profile_path}`}
               alt={movie.id}
-              width="60px"
             />
-            <p>{movie.name}</p>
-          </li>
+            <CastP>{movie.name}</CastP>
+          </CastLi>
         ))}
-      </ul>
+      </CastUl>
     </>
   );
 };
 
 export default memo(Cast);
-
-<div>
-  <ul>
-    <li>
-      <Link></Link>
-    </li>
-  </ul>
-</div>;
