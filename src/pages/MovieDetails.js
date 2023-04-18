@@ -1,7 +1,14 @@
 import { Suspense, useRef, useState, useEffect, memo } from 'react';
-import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
 import moviesAPI from '../services/movies-api';
-import { MovieDetailsContainer, LinkUl } from './MovieDetails.styled';
+import {
+  MovieDetailsContainer,
+  LinkUl,
+  MovieInformation,
+  MovieInformationIMG,
+  ButtonBack,
+  ButtonBackLink,
+} from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -40,19 +47,23 @@ const MovieDetails = () => {
   return (
     <>
       <MovieDetailsContainer>
-        <Link to={backLinkLocationRef.current}>Назад к странице коллекции</Link>
+        <ButtonBack>
+          <ButtonBackLink to={backLinkLocationRef.current}>
+            Назад к странице коллекции
+          </ButtonBackLink>
+        </ButtonBack>{' '}
       </MovieDetailsContainer>
 
       <MovieDetailsContainer>
         {movie && (
           <>
-            <div>
+            <MovieInformationIMG>
               <img
                 src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
                 alt={movie.title}
               />
-            </div>
-            <div>
+            </MovieInformationIMG>
+            <MovieInformation>
               <h2> {movie.title}</h2>
               <h4> Слоган фильма: {movie.tagline}</h4>
               <p>Год: {movie?.release_date?.slice(0, 4)}</p>
@@ -67,7 +78,7 @@ const MovieDetails = () => {
               <p>Рейтинг фильма: {movie.vote_average}</p>
               <p>Количество головов: {movie.vote_count} </p>
               <p>Продолжительность: {formatRuntime(movie.runtime)}</p>
-            </div>
+            </MovieInformation>
           </>
         )}
       </MovieDetailsContainer>
@@ -75,14 +86,16 @@ const MovieDetails = () => {
       <MovieDetailsContainer>
         <LinkUl>
           <li>
-            <Link to="cast" state={{ from: location }}>
-              Cast
-            </Link>
+            <ButtonBack>
+              <ButtonBackLink to="cast" state={{ from: location }}>
+                Cast
+              </ButtonBackLink>
+            </ButtonBack>
           </li>
           <li>
-            <Link to="reviews" state={{ from: location }}>
-              Reviews
-            </Link>
+            <ButtonBackLink to="reviews" state={{ from: location }}>
+              <ButtonBack>Reviews</ButtonBack>
+            </ButtonBackLink>
           </li>
         </LinkUl>
       </MovieDetailsContainer>
