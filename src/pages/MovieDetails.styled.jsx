@@ -47,3 +47,19 @@ export const MovieInformationIMG = styled.div`
 `;
 
 export const MovieInformation = styled.div``;
+
+export const MovieTitle = styled.h2`
+  font-size: 30px;
+  margin-bottom: 20px;
+`;
+
+export const MovieTagline = styled.h4`
+  font-size: 20px;
+  font-style: italic;
+  margin-bottom: 50px;
+`;
+
+export const MovieDetail = styled.p`
+  font-size: 17px;
+  margin-bottom: 20px;
+`;

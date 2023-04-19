@@ -14,6 +14,8 @@ export const CastLi = styled.li`
 export const CastImg = styled.img`
   display: block; /* чтобы изображения не имели отступа снизу */
   margin: 0 auto; /* центрирование изображений */
+  width: 100px;
+  height: 150px;
 `;
 
 export const CastP = styled.p`

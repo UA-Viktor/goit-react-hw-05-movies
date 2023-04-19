@@ -8,7 +8,11 @@ import {
   MovieInformationIMG,
   ButtonBack,
   ButtonBackLink,
+  MovieTitle,
+  MovieTagline,
+  MovieDetail,
 } from './MovieDetails.styled';
+import img from '../../src/img/no_name.png';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -58,26 +62,37 @@ const MovieDetails = () => {
         {movie && (
           <>
             <MovieInformationIMG>
-              <img
-                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-                alt={movie.title}
-              />
+              {movie.poster_path ? (
+                <img
+                  src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              ) : (
+                <img
+                  src={`${img}`}
+                  alt={movie.title}
+                  width="300px"
+                  height="450px"
+                />
+              )}
             </MovieInformationIMG>
             <MovieInformation>
-              <h2> {movie.title}</h2>
-              <h4> Слоган фильма: {movie.tagline}</h4>
-              <p>Год: {movie?.release_date?.slice(0, 4)}</p>
-              <p>Жанры: {genres?.join(', ')}</p>
-              <p>
+              <MovieTitle> {movie.title}</MovieTitle>
+              <MovieTagline> Слоган фильма: {movie.tagline}</MovieTagline>
+              <MovieDetail>Год: {movie?.release_date?.slice(0, 4)}</MovieDetail>
+              <MovieDetail>Жанры: {genres?.join(', ')}</MovieDetail>
+              <MovieDetail>
                 Бюджет: $ {parseFloat(movie?.budget).toLocaleString('en-US')}
-              </p>
-              <p>
+              </MovieDetail>
+              <MovieDetail>
                 Кассовые сборы: ${' '}
                 {parseFloat(movie?.revenue).toLocaleString('en-US')}
-              </p>
-              <p>Рейтинг фильма: {movie.vote_average}</p>
-              <p>Количество головов: {movie.vote_count} </p>
-              <p>Продолжительность: {formatRuntime(movie.runtime)}</p>
+              </MovieDetail>
+              <MovieDetail>Рейтинг фильма: {movie.vote_average}</MovieDetail>
+              <MovieDetail>Количество головов: {movie.vote_count} </MovieDetail>
+              <MovieDetail>
+                Продолжительность: {formatRuntime(movie.runtime)}
+              </MovieDetail>
             </MovieInformation>
           </>
         )}

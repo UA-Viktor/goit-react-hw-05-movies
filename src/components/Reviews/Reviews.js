@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import moviesAPI from '../services/movies-api';
+import moviesAPI from '../../services/movies-api';
 import { CastP } from './Reviews.styled';
 
 export const Reviews = () => {
@@ -26,6 +26,6 @@ export const Reviews = () => {
   }
 
   return (
-    <CastP>{movieReviews.length > 0 && <p>{movieReviews[0].content}</p>}</CastP>
+    <>{movieReviews.length > 0 && <CastP>{movieReviews[0].content}</CastP>}</>
   );
 };
